@@ -7,6 +7,19 @@ import (
 	"github.com/jimeh/envctl"
 )
 
+func Example_basic() {
+	os.Setenv("PORT", "8080")
+
+	envctl.With(map[string]string{"BIND": "0.0.0.0", "PORT": "3000"}, func() {
+		fmt.Println(os.Getenv("BIND") + ":" + os.Getenv("PORT"))
+	})
+
+	fmt.Println(os.Getenv("BIND") + ":" + os.Getenv("PORT"))
+	// Output:
+	// 0.0.0.0:3000
+	// :8080
+}
+
 func ExampleWith() {
 	// existing environment variables
 	os.Setenv("MYAPP_HOSTNAME", "myapp.com")
@@ -23,7 +36,6 @@ func ExampleWith() {
 		"MYAPP_HOSTNAME": "testing-myapp.test",
 		"MYAPP_TESTING":  "unit",
 	}
-
 	envctl.With(env, func() {
 		os.Setenv("MYAPP_THEME", "dark")
 

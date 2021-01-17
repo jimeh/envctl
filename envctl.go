@@ -1,7 +1,7 @@
 // Package envctl provides test helper functions that temporarily changes
 // environment variables accessible via os.Getenv() and os.LookupEnv(). After
 // they are done, all changes to environment variables are reset, including
-// manual changes with os.Setenv().
+// manual changes with os.Setenv() within the helper functions.
 package envctl
 
 import (
