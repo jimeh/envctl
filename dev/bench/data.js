@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1610916600091,
+  "lastUpdate": 1610917022586,
   "repoUrl": "https://github.com/jimeh/envctl",
   "entries": {
     "Benchmark": [
@@ -60,6 +60,36 @@ window.BENCHMARK_DATA = {
             "value": 3657,
             "unit": "ns/op",
             "extra": "323656 times"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "contact@jimeh.me",
+            "name": "Jim Myhrberg",
+            "username": "jimeh"
+          },
+          "committer": {
+            "email": "contact@jimeh.me",
+            "name": "Jim Myhrberg",
+            "username": "jimeh"
+          },
+          "distinct": true,
+          "id": "a81ae9e5999dd6eb162ad970ec4b3081ca2a936c",
+          "message": "chore(release): 0.1.0",
+          "timestamp": "2021-01-17T20:55:55Z",
+          "tree_id": "5f20f65097742929b0287241a9d98ec839a14c29",
+          "url": "https://github.com/jimeh/envctl/commit/a81ae9e5999dd6eb162ad970ec4b3081ca2a936c"
+        },
+        "date": 1610917021932,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_parseEnviron_2",
+            "value": 5171,
+            "unit": "ns/op",
+            "extra": "239546 times"
           }
         ]
       }
