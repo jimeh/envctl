@@ -1,4 +1,4 @@
-module github.com/jimeh/climatecontrol
+module github.com/jimeh/envctl
 
 go 1.15
 

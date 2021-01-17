@@ -1,4 +1,4 @@
-package climatecontrol
+package envctl
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWithEnv(t *testing.T) {
+func TestWith(t *testing.T) {
 	tests := []struct {
 		name string
 		env  map[string]string
@@ -36,7 +36,7 @@ func TestWithEnv(t *testing.T) {
 			os.Setenv("CC_TEST_OUTSIDE", t.Name())
 			outside := parseEnviron(os.Environ())
 
-			WithEnv(tt.env, func() {
+			With(tt.env, func() {
 				os.Setenv("CC_TEST_SET_INSIDE", t.Name()+"-manual")
 
 				for k, v := range tt.env {
@@ -70,7 +70,7 @@ func TestWithEnv(t *testing.T) {
 	}
 }
 
-func TestWithCleanEnv(t *testing.T) {
+func TestWithClean(t *testing.T) {
 	tests := []struct {
 		name string
 		env  map[string]string
@@ -99,7 +99,7 @@ func TestWithCleanEnv(t *testing.T) {
 			os.Setenv("CC_TEST_OUTSIDE", t.Name())
 			outside := parseEnviron(os.Environ())
 
-			WithCleanEnv(tt.env, func() {
+			WithClean(tt.env, func() {
 				os.Setenv("CC_TEST_SET_INSIDE", t.Name()+"-manual")
 
 				for k, v := range tt.env {
@@ -152,6 +152,8 @@ func Test_parseEnviron(t *testing.T) {
 				"NAME=John Doe",
 				"SHELL=/bin/bash",
 				"GOPRIVATE=",
+				"LESS= -R",
+				"LESSOPEN=| src-hilite-lesspipe.sh %s",
 				"X=11",
 				"TAGS=foo=bar,hello=world",
 				"_=go",
@@ -162,6 +164,8 @@ func Test_parseEnviron(t *testing.T) {
 				"NAME":      "John Doe",
 				"SHELL":     "/bin/bash",
 				"GOPRIVATE": "",
+				"LESS":      " -R",
+				"LESSOPEN":  "| src-hilite-lesspipe.sh %s",
 				"X":         "11",
 				"TAGS":      "foo=bar,hello=world",
 				"_":         "go",
@@ -174,5 +178,42 @@ func Test_parseEnviron(t *testing.T) {
 
 			assert.Equal(t, tt.want, got)
 		})
+	}
+}
+
+func Benchmark_parseEnviron(b *testing.B) {
+	env := []string{
+		`EDITOR=emacsclient-wrapper`,
+		`EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs`,
+		`GEM_EDITOR=emacsclient-wrapper`,
+		`GOPATH=/Users/jimeh/.go`,
+		`HOME=/Users/jimeh`,
+		`HOMEBREW_NO_ANALYTICS=1`,
+		`LANG=en_US.UTF-8`,
+		`LC_ALL=en_US.UTF-8`,
+		`LC_TERMINAL=iTerm2`,
+		`LC_TERMINAL_VERSION=3.4.3`,
+		`LESS= -R`,
+		`LESSOPEN=| src-hilite-lesspipe.sh %s`,
+		`NODENV_SHELL=zsh`,
+		`PWD=/Users/jimeh/Projects/envctl`,
+		`PYENV_SHELL=zsh`,
+		`RBENV_SHELL=zsh`,
+		`TERM=screen-256color`,
+		`TERM_PROGRAM=iTerm.app`,
+		`TERM_PROGRAM_VERSION=3.4.3`,
+		`TMPDIR=/tmp/user-jimeh`,
+		`TMUX=/private/tmp/tmux-501/default,4148,2`,
+		`TMUX_PANE=%29`,
+		`TMUX_PLUGIN_MANAGER_PATH=/Users/jimeh/.tmux/plugins/`,
+		`USER=jimeh`,
+		`ZPFX=/Users/jimeh/.local/zsh/zinit/polaris`,
+		`ZSH_CACHE_DIR=/Users/jimeh/.cache/zinit`,
+		`_=/usr/bin/env`,
+		`__CFBundleIdentifier=com.googlecode.iterm2`,
+	}
+
+	for i := 0; i < b.N; i++ {
+		parseEnviron(env)
 	}
 }

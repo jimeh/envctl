@@ -1,13 +1,13 @@
-package climatecontrol_test
+package envctl_test
 
 import (
 	"fmt"
 	"os"
 
-	cc "github.com/jimeh/climatecontrol"
+	"github.com/jimeh/envctl"
 )
 
-func ExampleWithEnv() {
+func ExampleWith() {
 	// existing environment variables
 	os.Setenv("MYAPP_HOSTNAME", "myapp.com")
 	os.Setenv("MYAPP_PORT", "80")
@@ -23,7 +23,8 @@ func ExampleWithEnv() {
 		"MYAPP_HOSTNAME": "testing-myapp.test",
 		"MYAPP_TESTING":  "unit",
 	}
-	cc.WithEnv(env, func() {
+
+	envctl.With(env, func() {
 		os.Setenv("MYAPP_THEME", "dark")
 
 		fmt.Println("Inside func:")
@@ -57,7 +58,7 @@ func ExampleWithEnv() {
 	//  - MYAPP_TESTING=
 }
 
-func ExampleWithCleanEnv() {
+func ExampleWithClean() {
 	// existing environment variables
 	os.Setenv("MYAPP_HOSTNAME", "myapp.com")
 	os.Setenv("MYAPP_PORT", "80")
@@ -73,7 +74,7 @@ func ExampleWithCleanEnv() {
 		"MYAPP_HOSTNAME": "testing-myapp.test",
 		"MYAPP_TESTING":  "unit",
 	}
-	cc.WithCleanEnv(env, func() {
+	envctl.WithClean(env, func() {
 		os.Setenv("MYAPP_THEME", "dark")
 
 		fmt.Println("Inside func:")
